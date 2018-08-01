@@ -11,6 +11,7 @@ declare var target:any;
 export class LogSignComponent implements OnInit {
 
   constructor() {
+    
    }
   
 
@@ -62,6 +63,14 @@ $('.tab a').on('click', function (e) {
   $(target).fadeIn(600);
   
 });
+  }
+
+  onSubmit = function (user) {
+    console.log(user);
+
+    var body = "firstname=" + user.firstname + "&lastname=" + user.lastname + "&email=" + user.email + "&mobile=" + user.mobile + "&password=" + user.password;
+    this.http.post("localhost:4000/api/user/create", body).subscribe((data) => {});
+
   }
 
 }
