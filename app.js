@@ -4,14 +4,14 @@ var db = require('./db');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var methodOverride = require("method-override")
-var file = multer({ dest: '/uploads/' });
+var file = multer({ dest: './uploads/' });
 global.__root   = __dirname + '/';
 app.set("view engine","ejs");
 
 // BodyParser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
-app.use('/uploads',express.static('uploads'));
+app.use('./uploads',express.static('uploads'));
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
 app.get('/api', function (req, res) {
