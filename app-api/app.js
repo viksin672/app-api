@@ -22,7 +22,7 @@ var UserController = require(__root + 'user/controller/UserController');
 app.use('/api/user', UserController);
 
 
-var port = process.env.PORT || 4000;
+var port = process.env.PORT || 5000;
 
 var server = app.listen(port, function() {
   console.log('Express server listening on port ' + port);
