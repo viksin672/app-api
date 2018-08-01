@@ -1,11 +1,25 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
+var multer = require('multer');
+var fs = require("fs");
 
 var VerifyToken = require(__root + 'user/auth/VerifyToken');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 var User = require(__root + 'user/models/User');
+
+//storage method in multer
+var storage =   multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, __root + './uploads/Blog');
+  },
+  filename: function (req, file, callback) {
+    callback(null,  Date.now()+ '-' +file.originalname);
+  }
+});
+
+var upload = multer({ storage : storage});
 
 // CREATES A NEW USER
 router.post('/create', function (req, res, next) {
@@ -37,7 +51,7 @@ var location = req.body.location;
   if(!mobile){
       return res.send({
       success :false,
-       message:'Error:username can\'t be Blank'
+       message:'Error:mobile can\'t be Blank'
     });
   }
   if(!password){
@@ -130,5 +144,18 @@ router.put('/:id',VerifyToken, function (req, res) {
     });
 });
 
-
+//post  Ad by user id in params
+router.put('/ad/:id',upload.single('upload_file'), function (req, res) {
+  
+  var title = req.body.title;
+  var body = req.body.body;
+  var image = '/uploads/Blog/'+req.file.filename; 
+  var category = req.body.category;
+User.findByIdAndUpdate(req.params.id,
+     {$push: {blog: { body: body, category:category , title:title , image:image } } },
+     {new: true}, function (err, blog) {
+       if (err) return res.status(500).send("There was a problem posting Ad.");
+       res.status(200).send({blog_id: blog._id,user:req.params.id});
+   });
+});
 module.exports = router;

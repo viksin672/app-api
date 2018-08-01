@@ -21,13 +21,6 @@ app.get('/api', function (req, res) {
 var UserController = require(__root + 'user/controller/UserController');
 app.use('/api/user', UserController);
 
-var AuthController = require(__root + 'user/auth/AuthController');
-app.use('/api/auth', AuthController);
-
-
-var BlogController = require(__root + 'user/controller/blogController');
-app.use('/api/blog', BlogController);
-
 
 var port = process.env.PORT || 4000;
 

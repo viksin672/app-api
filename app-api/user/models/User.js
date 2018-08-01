@@ -26,7 +26,33 @@ var UserSchema = new mongoose.Schema({
    location:{
       type: String,
       default:''
-   }
+   },
+   blog:[{
+      title: {
+        type: String,
+        default: ''
+      },
+      image:{
+          type: String,
+          default: ''
+        },
+      category: {
+        type: String,
+        default: ''
+      },
+      body:{
+          type: String,
+          default: ''
+      },
+      sold:{
+        type:Boolean,
+        default:false
+      },
+          created:{
+          type:Date,
+          default: Date.now
+        }
+     }]
 
 });
 
